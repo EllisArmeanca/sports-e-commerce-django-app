@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ produs.nume }}</title>
+</head>
+<body>
+    <h1>{{ produs.nume }}</h1>
+    <img src="{{ produs.imagine.url }}" alt="{{ produs.nume }}" />
+    <p>Preț: {{ produs.pret }} RON</p>
+    <p>Categorie: {{ produs.categoria.nume }}</p>
+    <p>Brand: {{ produs.brand.nume }}</p>
+    <p>Dimensiuni: 
+        {% for dimensiune in produs.dimensiuni.all %}
+            {{ dimensiune.dimensiune }} 
+        {% endfor %}
+    </p>
+
+    <p>Materiale:
+        {% for material in produs.materiale.all %}
+            {{ material.nume }} 
+        {% endfor %}
+    </p>
+
+    <p>Recenzii:
+        {% for recenzie in produs.recenzii.all %}
+            <strong>Rating:</strong> {{ recenzie.rating }} <br>
+            <strong>Comentariu:</strong> {{ recenzie.comentariu }} <br><br>
+        {% endfor %}
+    </p>
+
+    <!-- Logica pentru gestionarea coșului -->
+    <p>Stoc disponibil: {{ produs.stoc }}</p>
+
+    {% if request.session.cos|get_item:produs.id %}
+        <span style="color: green;">Produs în coș</span>
+    {% endif %}
+
+    {% if produs.stoc > 0 %}
+        <button onclick="location.href='/cos/adauga/{{ produs.id }}/'">Adaugă în coș</button>
+        <button onclick="location.href='/cos/cantitate/scade/{{ produs.id }}/'">-</button>
+        <button onclick="location.href='/cos/cantitate/adauga/{{ produs.id }}/'">+</button>
+    {% else %}
+        <p style="color: red;">Stoc epuizat</p>
+    {% endif %}
+
+    <a href="/cos/sterge/{{ produs.id }}/">Elimină din coș</a>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista Produse</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
+
+    <style>
+      #lista-produse li {
+        cursor: pointer;
+        list-style: none;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+      }
+      #lista-produse li img {
+        max-width: 100px;
+        margin-right: 20px;
+      }
+      #banner {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 1000;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Buton pentru vizualizarea coșului -->
+    <div>
+      <button onclick="location.href='/proiect/cos/'" style="margin-bottom: 20px;">
+        Vezi Coșul
+      </button>
+    </div>
+
+    <h1>Produse</h1>
+
+    <!-- Verificăm dacă utilizatorul este logat -->
+    {% if user.is_authenticated %}
+      <script>
+        if (Math.random() < 0.30) {
+          var banner = document.createElement('div');
+          banner.id = 'banner';
+          banner.innerHTML = '<p>Oferta reducere 50%!</p>';
+      
+          banner.addEventListener('click', function () {
+              fetch('/proiect/adauga-permisune/', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': '{{ csrf_token }}'
+                  },
+                  body: JSON.stringify({action: 'add_permission'})
+              }).then(response => {
+                  if (response.ok) {
+                      window.location.href = '/proiect/oferta'; // Redirecționează la pagina de ofertă
+                  }
+              });
+          });
+      
+          document.body.appendChild(banner);
+        }
+      </script>
+    {% endif %}
+
+    <!-- Formular de filtre -->  
+    <form id="formular-filtru" method="GET">
+      {% csrf_token %}
+      {{ form.as_p }} 
+      <button type="submit">Filtrează</button>
+      <button type="button" onclick="window.location.href='/proiect/produse';">Resetează</button>
+    </form>
+
+    <!-- Afișarea produselor -->
+    <ul id="lista-produse">
+        {% for produs in page_obj %}
+        <li>
+            <img src="{{ produs.imagine.url }}" alt="{{ produs.nume }}" />
+            <div>
+                <h2>{{ produs.nume }}</h2>
+                <p>Preț: {{ produs.pret }} lei</p>
+                <p>Stoc disponibil: {{ produs.stoc }}</p>
+
+                <!-- Marcaj dacă produsul este deja în coș -->
+                {% if produs.id|stringformat:"s" in request.session.cos %}
+                    <span style="color: green;">Produs în coș</span>
+                {% endif %}
+
+                <!-- Butoane pentru gestionarea coșului -->
+                {% if produs.stoc > 0 %}
+                    <button onclick="location.href='/proiect/cos/adauga/{{ produs.id }}/'">Adaugă în coș</button>
+                {% else %}
+                    <span style="color: red;">Stoc epuizat</span>
+                {% endif %}
+
+                <button onclick="location.href='/proiect/cos/cantitate/scade/{{ produs.id }}/'">-</button>
+                <button onclick="location.href='/proiect/cos/cantitate/adauga/{{ produs.id }}/'">+</button>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Paginare -->
+    <div class="pagination">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a href="?page=1&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}">First</a>
+              <a href="?page={{ page_obj.previous_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}">Previous</a>
+          {% endif %}
+      
+          <span class="current">
+              Page {{ page_obj.number }} of {% if page_obj.paginator.num_pages == 1 %}1{% else %}{{ page_obj.paginator.num_pages }}{% endif %}
+          </span>
+      
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}">Next</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}&{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}">Last</a>
+          {% endif %}
+      </span>
+    </div>
+
+  </body>
+</html>

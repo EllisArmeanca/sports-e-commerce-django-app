@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaugă Produs</title>
+</head>
+<body>
+    <h1>Adaugă un Produs</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.as_p }}  <!-- Afișează formularul utilizând as_p pentru a prezenta câmpurile sub formă de paragrafe -->
+        
+        <button type="submit">Adaugă Produs</button>
+    </form>
+</body>
+</html>

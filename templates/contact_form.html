@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formular Contact</title>
+</head>
+<body>
+    <h1>Formular Contact</h1>
+    
+    <!-- Verificăm dacă există erori de validare -->
+    {% if form.errors %}
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Afișează formularul cu fiecare câmp într-un paragraf -->
+        <button type="submit">Trimite</button>
+    </form>
+</body>
+</html>

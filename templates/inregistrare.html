@@ -1,0 +1,56 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    
+    <div>
+        {{ form.username.label_tag }} {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+    
+    <div>
+        {{ form.email.label_tag }} {{ form.email }}
+        {{ form.email.errors }}
+    </div>
+    
+    <div>
+        {{ form.telefon.label_tag }} {{ form.telefon }}
+        {{ form.telefon.errors }}
+    </div>
+    
+    <div>
+        {{ form.nationalitate.label_tag }} {{ form.nationalitate }}
+        {{ form.nationalitate.errors }}
+    </div>
+    
+    <div>
+        {{ form.gen.label_tag }} {{ form.gen }}
+        {{ form.gen.errors }}
+    </div>
+    
+    <div>
+        {{ form.ocupatie.label_tag }} {{ form.ocupatie }}
+        {{ form.ocupatie.errors }}
+    </div>
+    
+    <div>
+        {{ form.adresa.label_tag }} {{ form.adresa }}
+        {{ form.adresa.errors }}
+    </div>
+    
+    <div>
+        {{ form.data_nasterii.label_tag }} {{ form.data_nasterii }}
+        {{ form.data_nasterii.errors }}
+    </div>
+
+    <div>
+        {{ form.password1.label_tag }} {{ form.password1 }}
+        {{ form.password1.errors }}
+    </div>
+
+    <div>
+        {{ form.password2.label_tag }} {{ form.password2 }}
+        {{ form.password2.errors }}
+    </div>
+
+    <button type="submit">Register</button>
+</form>

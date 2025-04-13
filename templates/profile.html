@@ -1,0 +1,12 @@
+<h1>Profilul utilizatorului</h1>
+
+<p><strong>Username:</strong> {{ user_data.username }}</p>
+<p><strong>Email:</strong> {{ user_data.email }}</p>
+<p><strong>Telefon:</strong> {{ user_data.telefon }}</p>
+<p><strong>Naționalitate:</strong> {{ user_data.nationalitate }}</p>
+<p><strong>Gen:</strong> {{ user_data.gen }}</p>
+<p><strong>Ocupație:</strong> {{ user_data.ocupatie }}</p>
+<p><strong>Adresă:</strong> {{ user_data.adresa }}</p>
+<p><strong>Data nașterii:</strong> {{ user_data.data_nasterii }}</p>
+
+<a href="{% url 'change_password' %}">Schimbă parola</a>

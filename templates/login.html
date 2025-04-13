@@ -1,0 +1,58 @@
+{% comment %} <form method="post">
+  {% csrf_token %}
+  
+  <!-- Afișează mesajele de eroare -->
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  <div>
+    {{ form.username.label_tag }} {{ form.username }}
+    {{ form.username.errors }}
+  </div>
+  <div>
+    {{ form.password.label_tag }} {{ form.password }}
+    {{ form.password.errors }}
+  </div>
+  <div>
+    {{ form.remember_me.label_tag }} {{ form.remember_me }}
+    {{ form.remember_me.errors }}
+  </div>
+  <button type="submit">Login</button>
+</form>
+
+<form action="{% url 'logout-view' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form> {% endcomment %}
+<form method="post">
+  {% csrf_token %}
+  
+  <!-- Afișează mesajele de eroare -->
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  <div>
+    {{ form.username.label_tag }} {{ form.username }}
+    {{ form.username.errors }}
+  </div>
+  <div>
+    {{ form.password.label_tag }} {{ form.password }}
+    {{ form.password.errors }}
+  </div>
+  <div>
+    {{ form.remember_me.label_tag }} {{ form.remember_me }}
+    {{ form.remember_me.errors }}
+  </div>
+  <button type="submit">Login</button>
+</form>
+

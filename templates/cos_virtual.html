@@ -1,0 +1,17 @@
+<h1>Coșul meu</h1>
+<ul>
+    {% for produs_id, produs in cos.items %}
+    <li>
+        <h2>{{ produs.nume }}</h2>
+        <p>Preț unitar: {{ produs.pret|floatformat:2 }} RON</p>
+        <p>În coș: {{ produs.stoc }}</p>
+        <p>Subtotal: {{ produs.subtotal|floatformat:2 }} RON</p>
+        <button onclick="location.href='/cos/cantitate/scade/{{ produs_id }}/'">-</button>
+        <button onclick="location.href='/cos/cantitate/adauga/{{ produs_id }}/'">+</button>
+        <button onclick="location.href='/cos/sterge/{{ produs_id }}/'">Șterge</button>
+    </li>
+    {% endfor %}
+</ul>
+<p>Total: {{ total|floatformat:2 }} RON</p>
+<p>Total produse: {{ total_items }}</p>
+
